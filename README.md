@@ -59,15 +59,21 @@ Examples :
 
 ## Input and Output details examples
 
-*  scenario 01 ： full pipeine
+
         
-      * Input 
+### Input 
+
+*  scenario 01 ： full pipeine
 
        Parent's WGS sequences :  paternal.ngs.fastq  & maternal.ngs.fastq ;
        Children 10X Genomics sequences : barcoded.fastq.gz  ; NOTICE : 10XG raw reads are not supported , please run longranger basic command first.
       
+*  scenario 02 ： classify_only
 
-      * Output
+       Parent's unshare kmers          :  paternal.kmer  & maternal.kmer
+       Children 10X Genomics sequences : barcoded.fastq.gz  ; NOTICE : 10XG raw reads are not supported , please run longranger basic command first.
+
+### Output
       
        maternal.barcoded.fastq
        paternal.barcoded.fastq
@@ -86,9 +92,9 @@ Examples :
 3. transfer format barck into 10X Genomics raw reads 
         
         mkdir maternal_supernova
-        sh tools/barcode_fastq_gz_2_10xg_raw.sh maternal.final.fastq | gzip - >maternal_supernova/sample_S1_L001_RA_001.fastq.gz
+        sh tool/barcode_fastq_gz_2_10xg_raw.sh maternal.final.fastq | gzip - >maternal_supernova/sample_S1_L001_RA_001.fastq.gz
         mkdir maternal_supernova
-        sh tools/barcode_fastq_gz_2_10xg_raw.sh paternal.final.fastq | gzip - >paternal_supernova/sample_S1_L001_RA_001.fastq.gz 
+        sh tool/barcode_fastq_gz_2_10xg_raw.sh paternal.final.fastq | gzip - >paternal_supernova/sample_S1_L001_RA_001.fastq.gz 
 
 4. run supernova independently.
        
