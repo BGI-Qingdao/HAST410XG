@@ -57,4 +57,42 @@ Examples :
                      --jellyfish /home/software/jellyfish/jellyfish-linux
 ```
 
+## Input and Output details examples
+
+*  scenario 01 ： full pipeine
+        
+      * Input 
+
+       Parent's WGS sequences :  paternal.ngs.fastq  & maternal.ngs.fastq ;
+       Children 10X Genomics sequences : barcoded.fastq.gz  ; NOTICE : 10XG raw reads are not supported , please run longranger basic command first.
+      
+
+      * Output
+      
+       maternal.barcoded.fastq
+       paternal.barcoded.fastq
+       homozygous.barcoded.fastq
+      
+## How to run haplotype denovo after HAST410GX
+
+1. merge maternal.barcoded.fastq and homozygous.barcoded.fastq as maternal.final.fastq
+      
+        cat maternal.barcoded.fastq  homozygous.barcoded.fastq > maternal.final.fastq
+     
+2. merge paternal.barcoded.fastq and homozygous.barcoded.fastq as paternal.final.fastq 
+
+        cat paternal.barcoded.fastq  homozygous.barcoded.fastq > paternal.final.fastq 
+   
+3. transfer format barck into 10X Genomics raw reads 
+        
+        mkdir maternal_supernova
+        sh tools/barcode_fastq_gz_2_10xg_raw.sh maternal.final.fastq | gzip - >maternal_supernova/sample_S1_L001_RA_001.fastq.gz
+        mkdir maternal_supernova
+        sh tools/barcode_fastq_gz_2_10xg_raw.sh paternal.final.fastq | gzip - >paternal_supernova/sample_S1_L001_RA_001.fastq.gz 
+
+4. run supernova independently.
+       
+       cd maternal_supernova && supernova run --fastqs ./ --ID maternal 
+       cd paternal_supernova && supernova run --fastqs ./ --ID paternal 
+       
 Enjoy !
