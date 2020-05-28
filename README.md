@@ -92,10 +92,13 @@ Examples :
 3. transfer format barck into 10X Genomics raw reads 
         
         mkdir maternal_supernova
-        sh tool/barcode_fastq_gz_2_10xg_raw.sh maternal.final.fastq | gzip - >maternal_supernova/sample_S1_L001_RA_001.fastq.gz
-        mkdir maternal_supernova
-        sh tool/barcode_fastq_gz_2_10xg_raw.sh paternal.final.fastq | gzip - >paternal_supernova/sample_S1_L001_RA_001.fastq.gz 
-
+        sh tool/barcode_fastq_gz_2_10xg_raw.sh maternal.final.fastq  \
+                                               maternal_supernova/sample_S1_L001_R1_001.fastq \
+                                               maternal_supernova/sample_S1_L001_R2_001.fastq 
+        mkdir paternal_supernova
+        sh tool/barcode_fastq_gz_2_10xg_raw.sh paternal.final.fastq \
+                                               paternal_supernova/sample_S1_L001_R1_001.fastq \
+                                               paternal_supernova/sample_S1_L001_R2_001.fastq 
 4. run supernova independently.
        
        cd maternal_supernova && supernova run --fastqs ./ --ID maternal 
