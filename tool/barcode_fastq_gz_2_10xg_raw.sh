@@ -12,4 +12,8 @@
 # Warning :
 #   this scrip always append into $2 and $3 if thoes file already exist.
 
-awk   -F "BX:Z:"  '{ if(FNR%4==1){if($2!="") barcode=substr($2,0,16);else barcode="NNNNNNNNNNNNNNNN"}  if(FNR%8==1) printf("%s 1:N:0:0\n", $1) >> read1 ; else if(FNR%8==2) printf("%sNNNNNNN%s\n",barcode,$1) >>read1;else if (FNR%8==3) print $1 >> read1 ; else if (FNR%8==4) printf("KKKKKKKKKKKKKKKKKKKKKKK%s\n",$1) >>read1; else if (FNR%8==5) printf("%s 3:N:0:0\n", $1) >>read2; else print $1 >>read2; }'  read1=$2 read2=$3  $1
+awk   -F "BX:Z:"  -v read1=$2 -v read2=$3  'BEGIN{i=0;}{i+=1;if(i==9)i=1; if(i==1||i==5){if($2!="") barcode=substr($2,1,16);else barcode="NNNNNNNNNNNNNNNN"}  if(i==1) printf("%s 1:N:0:0\n", $1) > read1 ; else if(i==2) printf("%sNNNNNNN%s\n",barcode,$1) >read1;else if (i%8==3) print $1 > read1 ; else if (i%8==4) printf("KKKKKKKKKKKKKKKKKKKKKKK%s\n",$1) >read1; else if (i%8==5) printf("%s 3:N:0:0\n", $1) >read2; else print $1 >read2; }'   $1
+
+wc -l $2 >>"trasnfer.log"
+wc -l $3 >>"trasnfer.log"
+
